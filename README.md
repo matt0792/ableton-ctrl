@@ -1,4 +1,4 @@
-# Ableton Live OSC Client
+# Ableton-ctrl
 
 A Go client library for controlling Ableton Live via OSC using [AbletonOSC](https://github.com/ideoforms/AbletonOSC).
 
