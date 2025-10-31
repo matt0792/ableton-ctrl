@@ -3,7 +3,6 @@ module github.com/matt0792/ableton-ctrl
 go 1.25.0
 
 require (
-	github.com/google/uuid v1.6.0
 	github.com/hypebeast/go-osc v0.0.0-20220308234300-cec5a8a1e5f5
 	github.com/stretchr/testify v1.11.1
 )
