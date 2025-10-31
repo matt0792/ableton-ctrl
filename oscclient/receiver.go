@@ -14,7 +14,7 @@ type Receiver struct {
 func NewReceiver() *Receiver {
 	return &Receiver{
 		queue:   NewQueue(),
-		timeout: 50 * time.Millisecond,
+		timeout: 1000 * time.Millisecond,
 	}
 }
 
@@ -23,25 +23,23 @@ func (r *Receiver) Expect(addr string) chan *osc.Message {
 	return r.queue.Register(addr)
 }
 
-// WaitFor waits for a response on the given channel with timeout
+// WaitFor waits for response on the given channel with timeout
 func (r *Receiver) WaitFor(ch chan *osc.Message, addr string) *osc.Message {
 	timeout := time.After(r.timeout)
 
 	select {
 	case msg, ok := <-ch:
 		if !ok || msg == nil {
-			// Channel closed without message
 			return &osc.Message{}
 		}
 		return msg
 	case <-timeout:
-		// Timeout - cancel the pending request
 		r.queue.Cancel(addr, ch)
 		return &osc.Message{}
 	}
 }
 
-// Callback is non-blocking, and calls a func when result arrives
+// Callback is non blocking, and calls a func when result arrives
 func (r *Receiver) Callback(addr string, callback func(*osc.Message)) {
 	ch := r.Expect(addr)
 	go func() {

@@ -46,7 +46,6 @@ func (a *ApplicationAPI) GetLogLevel() string {
 	return ""
 }
 
-// SetLogLevel sets the log level (debug, info, warning, error, critical)
 func (a *ApplicationAPI) SetLogLevel(level string) {
 	a.client.send("/live/api/set/log_level", level)
 }

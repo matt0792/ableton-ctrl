@@ -2,6 +2,7 @@ package examples
 
 import (
 	"fmt"
+	"time"
 
 	"github.com/matt0792/ableton-ctrl/als"
 	"github.com/matt0792/ableton-ctrl/oscclient"
@@ -13,20 +14,11 @@ func Basic() {
 		ListenAddr: 11001,
 	})
 
-	// Start the client
 	client.Run()
 	defer client.Close()
+	time.Sleep(100 * time.Millisecond)
 
-	// Test connection
 	result := client.Application.Test()
-	fmt.Println("Connection:", result) // Prints "ok"
+	fmt.Println(result)
 
-	// Get version
-	major, minor := client.Application.GetVersion()
-	fmt.Printf("Ableton Live %d.%d\n", major, minor)
-
-	// Control playback
-	client.Song.StartPlaying()
-	tempo := client.Song.GetTempo()
-	fmt.Printf("Current tempo: %.2f BPM\n", tempo)
 }

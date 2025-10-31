@@ -33,12 +33,11 @@ func NewClient(opts ClientOpts) *Client {
 		isHandling: false,
 	}
 
-	// Add default handler to route all messages to receiver
+	// routes all messages to receiver
 	d.AddMsgHandler("*", func(msg *osc.Message) {
 		c.receiver.Populate(msg)
 	})
 
-	// Apply custom handlers (these will override the default for specific addresses)
 	for _, opt := range opts.Handlers {
 		opt(d)
 	}
@@ -52,7 +51,6 @@ type sendConfig struct {
 	wait bool
 }
 
-// WithWait makes the send wait for a response
 func WithWait() SendOption {
 	return func(c *sendConfig) {
 		c.wait = true
@@ -89,13 +87,11 @@ func (c *Call) Wait() *osc.Message {
 	return c.receiver.WaitFor(ch, c.addr)
 }
 
-// Run starts the server, and listens for messages
 func (c *Client) Run() {
 	go c.server.ListenAndServe()
 	c.isHandling = true
 }
 
-// Close stops the server
 func (c *Client) Close() {
 	defer log.Println("server closed")
 
