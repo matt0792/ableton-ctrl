@@ -2,7 +2,7 @@
 
 - als: A client for Ableton Live
 - alsex: Extension methods for als 
-- oscclient: Wrapper around github.com/hypebeast/go-osc/osc
+- oscclient: Wrapper around [go-osc](github.com/hypebeast/go-osc)
 
 ## Prerequisites 
 
