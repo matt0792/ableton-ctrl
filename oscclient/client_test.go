@@ -131,7 +131,7 @@ func TestQueueOperations(t *testing.T) {
 
 // TestReceiverPopulate verifies that messages are properly delivered
 func TestReceiverPopulate(t *testing.T) {
-	receiver := NewReceiver()
+	receiver := NewReceiver(0, false)
 
 	// Register for the message first
 	ch := receiver.Expect("/live/application/get/version")
@@ -151,7 +151,7 @@ func TestReceiverPopulate(t *testing.T) {
 
 // TestReceiverWaitFor verifies waiting for messages with timeout
 func TestReceiverWaitFor(t *testing.T) {
-	receiver := NewReceiver()
+	receiver := NewReceiver(0, false)
 
 	// Test timeout case
 	ch := receiver.Expect("/live/test")
@@ -179,7 +179,7 @@ func TestReceiverWaitFor(t *testing.T) {
 
 // TestReceiverCallback verifies callback functionality
 func TestReceiverCallback(t *testing.T) {
-	receiver := NewReceiver()
+	receiver := NewReceiver(0, false)
 
 	callbackFired := false
 	var receivedMsg *osc.Message
@@ -207,7 +207,7 @@ func TestReceiverCallback(t *testing.T) {
 
 // TestReceiverWaitChan verifies channel-based waiting
 func TestReceiverWaitChan(t *testing.T) {
-	receiver := NewReceiver()
+	receiver := NewReceiver(0, false)
 
 	resultChan := receiver.WaitChan("/live/application/get/version")
 

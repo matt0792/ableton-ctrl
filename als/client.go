@@ -2,7 +2,7 @@ package als
 
 import "github.com/matt0792/ableton-ctrl/oscclient"
 
-// Client provides a high-level interface to the Ableton Live OSC API
+// Client provides a high-level interface to Ableton.
 type Client struct {
 	osc         *oscclient.Client
 	Application *ApplicationAPI
@@ -15,8 +15,8 @@ type Client struct {
 	ClipSlot    *ClipSlotAPI
 }
 
-// NewClient creates a new Ableton Live OSC client
-// By default, AbletonOSC listens on port 11000 and sends replies on port 11001
+// NewClient creates a new Ableton Live OSC client.
+// Listens on port 11000 and sends replies on port 11001 by default.
 func NewClient(opts oscclient.ClientOpts) *Client {
 	oscClient := oscclient.NewClient(opts)
 
@@ -37,17 +37,14 @@ func NewClient(opts oscclient.ClientOpts) *Client {
 	return c
 }
 
-// Run starts the OSC client server to listen for incoming messages
 func (c *Client) Run() {
 	c.osc.Run()
 }
 
-// Close stops the OSC client server
 func (c *Client) Close() {
 	c.osc.Close()
 }
 
-// send is a helper method for sending OSC messages
 func (c *Client) send(addr string, params ...any) *oscclient.Call {
 	return c.osc.Send(addr, params...)
 }

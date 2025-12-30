@@ -1,11 +1,10 @@
 package als
 
-// ApplicationAPI provides methods for interacting with Ableton Live's application-level API
+// ApplicationAPI provides methods for interacting with Ableton
 type ApplicationAPI struct {
 	client *Client
 }
 
-// Test sends a test command to Ableton Live and returns "ok" if successful
 func (a *ApplicationAPI) Test() string {
 	msg := a.client.send("/live/test").Wait()
 	if len(msg.Arguments) > 0 {
@@ -16,7 +15,6 @@ func (a *ApplicationAPI) Test() string {
 	return ""
 }
 
-// GetVersion returns the major and minor version numbers of Ableton Live
 func (a *ApplicationAPI) GetVersion() (major, minor int32) {
 	msg := a.client.send("/live/application/get/version").Wait()
 	if len(msg.Arguments) >= 2 {
@@ -30,12 +28,11 @@ func (a *ApplicationAPI) GetVersion() (major, minor int32) {
 	return
 }
 
-// Reload initiates a live reload of the AbletonOSC server code
+// Reload initiates a live reload of the AbletonOSC server code.
 func (a *ApplicationAPI) Reload() {
 	a.client.send("/live/api/reload")
 }
 
-// GetLogLevel retrieves the current logging granularity level
 func (a *ApplicationAPI) GetLogLevel() string {
 	msg := a.client.send("/live/api/get/log_level").Wait()
 	if len(msg.Arguments) > 0 {

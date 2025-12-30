@@ -1,4 +1,4 @@
-package alsex
+package note
 
 import (
 	"errors"
@@ -6,6 +6,18 @@ import (
 	"strconv"
 	"strings"
 )
+
+type Note struct {
+	Pitch     int32
+	StartTime float32
+	Duration  float32
+	Velocity  int32
+	Mute      bool
+}
+
+func New(note string) *Note {
+	return &Note{}
+}
 
 var noteValues = map[string]int{
 	"C":  0,

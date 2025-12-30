@@ -1,20 +1,26 @@
 package oscclient
 
 import (
+	"log"
 	"time"
 
 	"github.com/hypebeast/go-osc/osc"
 )
 
 type Receiver struct {
-	queue   *Queue
-	timeout time.Duration
+	queue        *Queue
+	timeout      time.Duration
+	enableLogger bool
 }
 
-func NewReceiver() *Receiver {
+func NewReceiver(timeout time.Duration, enableLogger bool) *Receiver {
+	if timeout == 0 {
+		timeout = 3000 * time.Millisecond // Increased default from 1s to 3s
+	}
 	return &Receiver{
-		queue:   NewQueue(),
-		timeout: 1000 * time.Millisecond,
+		queue:        NewQueue(),
+		timeout:      timeout,
+		enableLogger: enableLogger,
 	}
 }
 
@@ -30,10 +36,16 @@ func (r *Receiver) WaitFor(ch chan *osc.Message, addr string) *osc.Message {
 	select {
 	case msg, ok := <-ch:
 		if !ok || msg == nil {
+			if r.enableLogger {
+				log.Printf("[oscclient] WARNING: Received nil/closed message for %s", addr)
+			}
 			return &osc.Message{}
 		}
 		return msg
 	case <-timeout:
+		if r.enableLogger {
+			log.Printf("[oscclient] WARNING: Timeout waiting for response from %s (waited %v)", addr, r.timeout)
+		}
 		r.queue.Cancel(addr, ch)
 		return &osc.Message{}
 	}
